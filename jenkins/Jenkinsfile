@@ -6,6 +6,16 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
+        stage('jar') {
+            steps {
+                sh 'mvn jar:jar'
+            }
+            post {
+                success {
+                  archiveArtifacts artifacts: 'target/  *.jar', fingerprint: true
+                }
+            }
+        }
         stage('Test') {
             steps {
                 sh 'mvn test'
